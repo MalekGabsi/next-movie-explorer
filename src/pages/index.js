@@ -42,16 +42,10 @@ export default function Home() {
   const handleAddToWatchlist = (movie) => {
     if (isInWatchlist(movie)) {
       dispatch(removeMovie(movie.id));
-      toast.success(`Removed "${movie.title}" from your watchlist!`, {
-        position: "top-right",
-        autoClose: 4000,
-      });
+      toast.success(`Removed "${movie.title}" from your watchlist!`);
     } else {
       dispatch(addMovie(movie));
-       toast.success(`Added "${movie.title}" to your watchlist!`, {
-        position: "top-right",
-        autoClose: 4000,
-      });
+       toast.success(`Added "${movie.title}" to your watchlist!`);
     }}
 
   return (

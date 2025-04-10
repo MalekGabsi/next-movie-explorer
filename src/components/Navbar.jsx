@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Film, } from "lucide-react";
 
 export default function Navbar({ user, handleSignOut, getInitials }) {
   const router = useRouter();
@@ -11,8 +12,9 @@ export default function Navbar({ user, handleSignOut, getInitials }) {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
+          <Film className="h-6 w-6 text-red-500" />
           <span className="text-2xl text-white font-bold">
-            <span className="text-red-500">🎬 Cinema</span>Lounge
+            <span className="text-red-500">Cinema</span>Lounge
           </span>
         </div>
 

@@ -14,6 +14,7 @@ const Layout = ({ children }) => {
       {!isAuthPage && !isNotFoundPage && <NavMenu />}
 
       <main>{children}</main>
+      
       <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
