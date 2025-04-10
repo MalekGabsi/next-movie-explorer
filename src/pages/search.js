@@ -56,8 +56,8 @@ const SearchPage = () => {
     <div className="p-6 bg-gray-900 min-h-screen text-white">
       <div className="space-y-8" style={{ marginLeft: "20px" }}>
         <div className="space-y-4">
-          <h1 className="text-3xl font-display font-bold">Search Movies</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-4xl font-display font-bold">Search Movies</h1>
+          <p className="text-muted-foreground opacity-70">
             Find your favorite movies by title
           </p>
         </div>
