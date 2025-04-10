@@ -64,7 +64,7 @@ const Favorites = () => {
         <div className="space-y-4">
           <h1 className="text-4xl font-display font-bold">Search Movies</h1>
           <p className="text-muted-foreground opacity-70">  
-            Movies you've saved to watch later
+            Movies you&apos;ve saved to watch later
           </p>
         </div>
         </div>
