@@ -48,7 +48,8 @@ import { useState, useEffect } from 'react';
 
 
 const Favorites = () => {
-  const [watchlist, setWatchlist] = useState([]);  useEffect(() => {
+  const [watchlist, setWatchlist] = useState([]);  
+  useEffect(() => {
     // Only run on the client-side (browser)
     if (typeof window !== 'undefined') {
       const savedWatchlist = localStorage.getItem('watchlist');
