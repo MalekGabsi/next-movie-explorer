@@ -79,51 +79,52 @@ const SearchPage = () => {
       {error && <div className="text-red-500 text-center">{error}</div>} {/* Show error message */}
 
       {query ? (
-        <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {loading ? (
-              <div className="text-center col-span-full">
-                <p>Loading...</p>
-              </div>
-            ) : (
-              movies.length > 0 ? (
-                movies.map((movie) => (
-                  <div
-                    key={movie.id}
-                    className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform transform hover:scale-105"
-                  >
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      className="w-full h-[350px] object-cover rounded-2xl"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-100 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                      <h2 className="text-xl font-bold text-white">{movie.title}</h2>
-                      <p className="text-sm text-gray-300">
-                        ⭐ {movie.vote_average.toFixed(1)} | 🗓 {movie.release_date}
-                      </p>
-                    </div>
-                  </div>
-                ))
-              ) : (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {loading ? (
                 <div className="text-center col-span-full">
-                  <p>No movies found</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500 border-b-4 border-gray-300 mx-auto"></div>
                 </div>
-              )
-            )}
-          </div>
-
-          {isFetching && !loading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500 border-b-4 border-gray-300"></div>
+              ) : (
+                movies.length > 0 ? (
+                  movies.map((movie) => (
+                    <div
+                      key={movie.id}
+                      className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform transform hover:scale-105"
+                    >
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        alt={movie.title}
+                        className="w-full h-[350px] object-cover rounded-2xl"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-100 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                        <h2 className="text-xl font-bold text-white">{movie.title}</h2>
+                        <p className="text-sm text-gray-300">
+                          ⭐ {movie.vote_average.toFixed(1)} | 🗓 {movie.release_date}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center col-span-full">
+                    <p>No movies found</p>
+                  </div>
+                )
+              )}
             </div>
-          )}
-        </>
-      ) : (
-        <div className="text-center mt-16">
-          <h2 className="text-2xl font-bold color-gray">Enter a movie title to search</h2>
-        </div>
-      )}
+
+            {isFetching && !loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-red-500 border-b-4 border-gray-300"></div>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center mt-16">
+            <h2 className="text-2xl font-bold color-gray">Enter a movie title to search</h2>
+          </div>
+        )}
+
     </div>
   );
 };
