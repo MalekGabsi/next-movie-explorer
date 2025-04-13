@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
   const isAuthPage = router.pathname.includes("/auth");
   const isNotFoundPage = router.pathname === "/404";
 
-  const { user, loading } = useUser(); // Access user and loading state from the context
+  const { user, loading } = useUser();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -30,7 +30,7 @@ const Layout = ({ children }) => {
 
   return (
     <div>
-      {!isAuthPage && !isNotFoundPage && user && (
+      {!isAuthPage && !isNotFoundPage  && (
         <NavMenu user={user} handleSignOut={handleSignOut} getInitials={getInitials} />
       )}
 
