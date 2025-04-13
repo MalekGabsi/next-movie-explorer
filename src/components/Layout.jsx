@@ -4,6 +4,7 @@ import { useUser } from "@/context/UserContext"; // Import the useUser hook
 import NavMenu from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { supabase } from "@/utils/supabaseClient"; // Import supabase client
 
 const Layout = ({ children }) => {
   const router = useRouter();
