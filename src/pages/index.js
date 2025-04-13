@@ -14,16 +14,15 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
 
-
-
   useEffect(() => {
     const getMovies = async () => {
       setIsFetching(true);
       try {
         const data = await fetchPopularMovies(page);
         setMovies(data);
-        console.log("Movies loaded successfully:", data);
       } catch (error) {
+        console.log(error);
+        
         console.error("Failed to load movies", error);
       } finally {
         setIsFetching(false);
@@ -45,8 +44,9 @@ export default function Home() {
       toast.success(`Removed "${movie.title}" from your watchlist!`);
     } else {
       dispatch(addMovie(movie));
-       toast.success(`Added "${movie.title}" to your watchlist!`);
-    }}
+      toast.success(`Added "${movie.title}" to your watchlist!`);
+    }
+  };
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">
@@ -66,31 +66,34 @@ export default function Home() {
             key={movie.id}
             className="relative group overflow-hidden rounded-2xl shadow-lg transition-transform transform hover:scale-105"
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              className="w-full h-[350px] object-cover rounded-2xl"
-            />
+            <Link href={`/films/${movie.id}`} passHref>
             
-            <button
-                className="absolute top-3 right-3 z-10 bg-gray-900 bg-opacity-90 rounded-full p-2 hover:bg-red-500 hover:text-white transition"
-                onClick={() => handleAddToWatchlist(movie)}
-              >
-                <FontAwesomeIcon
-                  icon={isInWatchlist(movie) ? solidBookmark : regularBookmark}
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="w-full h-[350px] object-cover rounded-2xl"
                 />
-              </button>
+                <div className="absolute inset-0 bg-black bg-opacity-100 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                  <h2 className="text-xl font-bold text-white">{movie.title}</h2>
+                  <p className="text-sm text-gray-300">
+                    ⭐ {movie.vote_average.toFixed(1)} | 🗓 {movie.release_date}
+                  </p>
+                </div>
+              
+            </Link>
 
-
-            <div className="absolute inset-0 bg-black bg-opacity-100 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-              <h2 className="text-xl font-bold text-white">{movie.title}</h2>
-              <p className="text-sm text-gray-300">
-                ⭐ {movie.vote_average.toFixed(1)} | 🗓 {movie.release_date}
-              </p>
-            </div>
+            <button
+              className="cursor-pointer absolute top-3 right-3 z-10 bg-gray-900 bg-opacity-90 rounded-full p-2 hover:bg-red-500 hover:text-white transition"
+              onClick={() => handleAddToWatchlist(movie)}
+            >
+              <FontAwesomeIcon
+                icon={isInWatchlist(movie) ? solidBookmark : regularBookmark}
+              />
+            </button>
           </div>
         ))}
       </div>
+
       <div className="flex items-center justify-center gap-4 pt-6">
         <Link
           href={`/?page=${Math.max(1, page - 1)}`}
@@ -110,8 +113,6 @@ export default function Home() {
           <span className="font-semibold">Next</span>
         </Link>
       </div>
-
     </div>
   );
 }
-

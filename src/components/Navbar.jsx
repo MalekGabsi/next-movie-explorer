@@ -7,15 +7,20 @@ import { Film, Menu, X } from "lucide-react";
 export default function Navbar({ user, handleSignOut, getInitials }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   const navLink = (href, label) => (
     <Link
       href={href}
-      className={`font-medium transition-colors duration-200 ${
+      className={`cursor-pointer font-medium transition-colors duration-200 ${
         router.pathname === href
           ? "text-red-500"
           : "text-gray-300 hover:text-white"
@@ -32,9 +37,11 @@ export default function Navbar({ user, handleSignOut, getInitials }) {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Film className="h-6 w-6 text-red-500" />
-          <span className="text-2xl text-white font-bold">
-            <span className="text-red-500">Cinema</span>Lounge
-          </span>
+          <Link href="/">
+            <span className="text-2xl text-white font-bold">
+              <span className="text-red-500">Cinema</span>Lounge
+            </span>
+          </Link>
         </div>
 
         {/* Mobile menu button */}
@@ -55,23 +62,39 @@ export default function Navbar({ user, handleSignOut, getInitials }) {
         </nav>
 
         {/* Desktop User Section */}
-        <div className="hidden md:block">
+        <div className="hidden md:block relative">
           {user ? (
-            <div className="relative">
-              <Image
-                src={user.user_metadata?.avatar_url || "/default-avatar.png"}
-                alt="User Avatar"
-                width={40}
-                height={40}
-                className="rounded-full border-2 border-gray-300 hover:border-white transition duration-200"
-              />
-              <div className="absolute -top-1 -right-1 text-xs bg-red-500 text-white rounded-full px-1">
-                {getInitials()}
-              </div>
+            <div>
+              <button onClick={toggleDropdown} className="relative">
+                
+                <Image
+                  src={user.user_metadata?.avatar_url || "/defaultUser.jpeg"}
+                  alt="User Avatar"
+                  width={40}
+                  height={40}
+                  className="cursor-pointer  rounded-full border-2 border-gray-300 hover:border-white transition duration-200"
+                />
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 bg-black text-white shadow-md rounded-lg w-40">
+                  <div className="py-2 px-4">
+                    <Link href="/profile">
+                      <div className="cursor-pointer hover:bg-gray-700 rounded px-2 py-1">Profile</div>
+                    </Link>
+                    <button
+                      onClick={() => handleSignOut()}
+                      className="w-full text-left cursor-pointer hover:bg-gray-700 rounded px-2 py-1"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <button
-              className="bg-red-600 hover:bg-red-700 transition text-white px-4 py-2 rounded"
+              className="cursor-pointer bg-red-600 hover:bg-red-700 transition text-white px-4 py-2 rounded"
               onClick={() => router.push("/auth")}
             >
               Sign In
@@ -99,7 +122,7 @@ export default function Navbar({ user, handleSignOut, getInitials }) {
                 height={36}
                 className="rounded-full border border-gray-400"
               />
-              <span className="text-white text-sm font-semibold">{getInitials()}</span>
+              <span className="text-white text-sm font-semibold">{getInitials(user)}</span>
             </div>
           ) : (
             <button

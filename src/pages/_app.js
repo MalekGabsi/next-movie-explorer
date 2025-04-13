@@ -1,17 +1,20 @@
-import "@/styles/globals.css"; 
-import Layout from "@/components/Layout";
+import { UserProvider } from "@/context/UserContext"; // Import UserProvider
 import { Provider } from "react-redux";
 import { store } from "@/redux/store"; 
-
+import Layout from "@/components/Layout";
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   return (
     <>
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <UserProvider> 
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserProvider>
     </Provider>
     </>
+    
   );
 }
