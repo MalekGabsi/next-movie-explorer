@@ -42,18 +42,17 @@ const AuthPage = () => {
         user = data.user; 
       }
 
-      // Dispatch user to global state (e.g., Redux store)
+      
       dispatch(login(user)); 
 
-      // Show success message and redirect
       toast.success("Account Logged In with Success!");
-      router.push("/"); // Redirect to homepage or authenticated area
+      router.push("/"); // 
 
     } catch (error) {
-      // Handle any errors that occur during the authentication process
+      
       toast.error(error.message);
     } finally {
-      setLoading(false); // Stop loading spinner after process
+      setLoading(false);
     }
   };
 
@@ -66,14 +65,7 @@ const AuthPage = () => {
           redirectTo: process.env.NEXT_PUBLIC_APP_URL // Make sure this is correct in Vercel and locally
         }
       });
-
-      if (error) {
-        // Handle any errors that occur with Google login
-        toast.error("Google Login Error: " + error.message);
-      }
-
     } catch (error) {
-      // Handle any other errors that might occur during Google login
       toast.error("Google Login Failed: " + error.message);
     }
   };
