@@ -58,11 +58,16 @@ const AuthPage = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      // Use Supabase OAuth for Google login
+        const redirectUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://next-movie-explorerr.vercel.app"
+        : "http://localhost:3000";
+
+        
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: process.env.NEXT_PUBLIC_APP_URL // Make sure this is correct in Vercel and locally
+          redirectTo: redirectUrl 
         }
       });
     } catch (error) {
