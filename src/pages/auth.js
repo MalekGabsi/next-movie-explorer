@@ -17,7 +17,7 @@ const AuthPage = () => {
   const router = useRouter();
   const dispatch = useDispatch(); 
   
-  const handleAuth = async (e) => {
+    const handleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -42,26 +42,39 @@ const AuthPage = () => {
         user = data.user; 
       }
 
+      // Dispatch user to global state (e.g., Redux store)
       dispatch(login(user)); 
+
+      // Show success message and redirect
       toast.success("Account Logged In with Success!");
-      router.push("/"); 
+      router.push("/"); // Redirect to homepage or authenticated area
+
     } catch (error) {
+      // Handle any errors that occur during the authentication process
       toast.error(error.message);
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading spinner after process
     }
   };
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: process.env.NEXT_PUBLIC_APP_URL 
-      }
-    });
+    try {
+      // Use Supabase OAuth for Google login
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: process.env.NEXT_PUBLIC_APP_URL // Make sure this is correct in Vercel and locally
+        }
+      });
 
-    if (error) {
-      toast.error("Google Login Error: " + error.message);
+      if (error) {
+        // Handle any errors that occur with Google login
+        toast.error("Google Login Error: " + error.message);
+      }
+
+    } catch (error) {
+      // Handle any other errors that might occur during Google login
+      toast.error("Google Login Failed: " + error.message);
     }
   };
 
