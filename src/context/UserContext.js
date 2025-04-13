@@ -2,10 +2,8 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { supabase } from "@/utils/supabaseClient";
 
-// Create context
 export const UserContext = createContext();
 
-// Create the provider component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
