@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPopularMovies } from "../pages/api/movieApi";
 import Link from "next/link";
@@ -8,29 +8,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as solidBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as regularBookmark } from "@fortawesome/free-regular-svg-icons";
 import { toast } from 'react-toastify';
+import { supabase } from "@/utils/supabaseClient";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
-  const [isFetching, setIsFetching] = useState(false);
-
+  const [isFetching, setIsFetching] = useState(false);    
+  const router = useRouter();
   useEffect(() => {
-    const getMovies = async () => {
-      setIsFetching(true);
-      try {
-        const data = await fetchPopularMovies(page);
-        setMovies(data);
-      } catch (error) {
-        console.log(error);
-        
-        console.error("Failed to load movies", error);
-      } finally {
-        setIsFetching(false);
-      }
-    };
 
-    getMovies();
-  }, [page]);
+  const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+    const user = session?.user;
+    
+    if (!user) {
+      router.push("/auth");
+    } else {
+      const getMovies = async () => {
+        setIsFetching(true);
+        try {
+          const data = await fetchPopularMovies(page);
+          setMovies(data);
+        } catch (error) {
+          console.error("Failed to load movies", error);
+        } finally {
+          setIsFetching(false);
+        }
+      };
+
+      getMovies();
+    }
+  });
+  return () => {
+    authListener?.subscription?.unsubscribe();
+  };
+}, [page]);
+
+
 
   const dispatch = useDispatch();
   const { watchlist } = useSelector((state) => state.watchlist);
